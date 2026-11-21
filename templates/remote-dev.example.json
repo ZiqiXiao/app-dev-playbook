@@ -1,0 +1,11 @@
+{
+  "regionId": "cn-hangzhou",
+  "instanceId": "i-REPLACE_ME",
+  "sshUser": "ecs-user",
+  "sshPort": 443,
+  "sshPublicKey": "~/.ssh/id_ed25519.pub",
+  "aliyunProfile": "<project>-dev",
+  "ramRoleName": "<instance-ram-role>",
+  "idleMinutes": 30,
+  "hostAliases": {}
+}
