@@ -1,0 +1,34 @@
+{
+  "name": "app-dev-playbook",
+  "version": "0.1.0",
+  "description": "按项目技术栈组装 AGENTS.md、工程规范文档和 xspec skill 的命令行工具",
+  "type": "module",
+  "bin": {
+    "app-dev-playbook": "bin/app-dev-playbook.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "content"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "typecheck": "tsc -p jsconfig.json",
+    "check": "npm run typecheck && npm test"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZiqiXiao/app-dev-playbook.git"
+  },
+  "license": "MIT"
+}

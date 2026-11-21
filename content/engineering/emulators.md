@@ -39,15 +39,17 @@ npm run emulator:stop -- --platform ios --release   # 同时归还设备租约
 
 | 平台 | 配置 |
 | --- | --- |
-| iOS | 当前主力机型（如 iPhone 17）+ 已安装的最新 iOS 运行时 |
-| Android | 最新 API 的 Google Play arm64 镜像，1080×2400 @ 420 dpi，2 核，4 GB 内存，6 GB 数据分区，硬件渲染，快速启动 |
+| iOS | 当前主力机型（如 iPhone 17）+ 已安装的最新 iOS 运行时 | <!-- if:ios -->
+| Android | 最新 API 的 Google Play arm64 镜像，1080×2400 @ 420 dpi，2 核，4 GB 内存，6 GB 数据分区，硬件渲染，快速启动 | <!-- if:android -->
 
+<!-- if:android -->
 ### Android 渲染参数（Apple Silicon）
 
 - 新实例使用 `-gpu host -feature VulkanNativeSwapchain`：客户机用 ANGLE，经 Vulkan → MoltenVK → Metal 使用 Mac GPU，提供新 API 要求的 GLES 3.1。macOS 普通硬件渲染经 OpenGL 4.1 只能提供 GLES 3.0，`-gpu auto` 会回退为 CPU 渲染，单实例占用多个核心。
 - 不使用 `-gpu swiftshader`、`-read-only` 或 `-no-snapshot`。目标 AVD 已在运行 → 复用，同一 AVD 不运行第二个实例。
 - 硬件渲染崩溃或画面异常 → 改用 `--software`（CPU 渲染，刷新率限制 30 Hz）。启动结束时输出客户机 EGL 驱动和 GLES 版本，硬件模式应为 `angle` 和 3.1。
 - 启动记录和模拟器日志写入 `.build/emulator/`，iOS 写入 `.build/simulator/`。
+<!-- endif -->
 
 ## 与开发会话的配合
 

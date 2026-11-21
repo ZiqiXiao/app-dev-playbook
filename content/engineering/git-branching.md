@@ -20,7 +20,7 @@ Claude Code 等工具新建工作树时会给出临时名（如 `claude/<随机�
 
 - 临时名只用于开工，确定任务内容后、首次提交前必须改成 `<type>/<描述>`。
 - 改名用项目的工作树脚本（如 `python3 scripts/dev/worktrees.py rename <type>/<描述>`），不直接 `git branch -m`，这样工作树文件夹会跟随改名。详见 [工作树](worktrees.md#文件夹随分支改名)。
-- pre-commit 加一个钩子拒绝在临时分支上提交，示例见 [templates/pre-commit-config.yaml](../templates/pre-commit-config.yaml)：
+- pre-commit 加一个钩子拒绝在临时分支上提交，示例见 [templates/pre-commit-config.yaml](templates/pre-commit-config.yaml)：
 
 ```python
 # scripts/dev/check_branch.py 的核心逻辑
