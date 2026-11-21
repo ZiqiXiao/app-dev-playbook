@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "WorktreeCreate": [{ "hooks": [{ "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/dev/claude_hooks.py\" worktree-create", "timeout": 120 }] }],
+    "WorktreeRemove": [{ "hooks": [{ "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/dev/claude_hooks.py\" worktree-remove", "timeout": 300 }] }],
+    "SessionStart": [{ "hooks": [{ "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/dev/claude_hooks.py\" session-start", "timeout": 900, "statusMessage": "同步工作树文件夹，准备依赖、索引和编辑器工作区" }] }],
+    "Stop": [{ "hooks": [{ "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/dev/claude_hooks.py\" stop", "timeout": 60, "statusMessage": "运行质量检查，同步工作树文件夹" }] }]
+  }
+}

@@ -1,0 +1,4 @@
+# 保存为仓库根目录的 .worktreeinclude。新建工作树时从主目录复制的已忽略文件，语法同 .gitignore。
+# 只列不含秘密的本机绑定；依赖由工作树脚本按锁文件安装。
+.infisical.json
+.remote-dev.json

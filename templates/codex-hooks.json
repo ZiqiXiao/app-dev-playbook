@@ -1,0 +1,6 @@
+{
+  "description": "Run quality checks before Codex finishes a turn, then let the worktree folder follow its branch.",
+  "hooks": {
+    "Stop": [{ "hooks": [{ "type": "command", "command": "python3 \"$(dirname \"$(git rev-parse --path-format=absolute --git-common-dir)\")/scripts/dev/worktrees.py\" stop", "timeout": 60 }] }]
+  }
+}
