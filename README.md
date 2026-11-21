@@ -1,34 +1,89 @@
-# App 开发手册（app-dev-playbook）
+# app-dev-playbook
 
-从过往项目沉淀的通用开发约定，供新项目直接复用，避免每次向人或 AI Agent 重复说明。内容与具体产品无关；项目专属的事实（产品名、端口、账号、实例 ID 等）在项目自己的 `AGENTS.md` 和文档中填写。
+从过往项目沉淀的通用 App 开发约定。一个命令就能在新项目里装好 `AGENTS.md`、工程规范文档和 xspec skill，以后不用再向人或 AI Agent 重复说明这些规则。
 
-## 用法
+## 快速开始
 
-1. 把 [`AGENTS.template.md`](AGENTS.template.md) 复制为新项目根目录的 `AGENTS.md`，替换全部 `<占位符>`，删除不适用的小节。需要 Claude Code 读取时，再建一个只含 `@AGENTS.md` 的 `CLAUDE.md`。
-2. 按项目技术栈从 `docs/`、`aliyun/` 中挑选需要的文档，复制到项目的 `docs/engineering/`（推荐，便于随项目演进），并在 `AGENTS.md` 的“按任务读取”表中登记。
-3. `templates/` 中的配置片段（钩子、pre-commit、绑定文件）按需复制并改名。
-4. 项目里对规范的修改如果对其他项目也成立，回写到本手册。
+```bash
+npx github:ZiqiXiao/app-dev-playbook init          # 发布到 npm 前，直接从 GitHub 运行
+npx app-dev-playbook init                          # 发布到 npm 后
+pnpm dlx app-dev-playbook init
+npm i -g app-dev-playbook && app-dev-playbook init
+```
 
-## 目录
+不带参数时逐项交互式询问；带参数时跳过已指定的项，加 `--yes` 则完全不询问：
 
-| 文档 | 内容 | 适用 |
+```bash
+npx app-dev-playbook init ./my-app --yes \
+  --name MyApp --mobile ios,android --no-web --design \
+  --cloud aliyun --db supabase --release release-please --secrets infisical,env
+```
+
+| 选项 | 可选值 | 默认 |
 | --- | --- | --- |
-| [AGENTS.template.md](AGENTS.template.md) | 根约定模板：协作、授权边界、秘密安全、运行环境代号、按任务读取、代码检索、验证 | 所有项目 |
-| [docs/agents-md-guide.md](docs/agents-md-guide.md) | 如何编写和拆分 AGENTS.md：根文件与局部文件、路由表、写法 | 所有项目 |
-| [docs/git-branching.md](docs/git-branching.md) | 分支命名、提交信息、临时分支拦截 | 所有项目 |
-| [docs/worktrees.md](docs/worktrees.md) | 多工作树并行开发：新建、准备、随分支改名、移除快照、编辑器工作区、Agent 钩子 | 多 Agent 并行开发 |
-| [docs/emulators.md](docs/emulators.md) | iOS/Android 模拟器统一入口、设备命名、按工作树租用设备和端口 | 移动端 |
-| [docs/verify-and-merge.md](docs/verify-and-merge.md) | 本机干净检出验证、pre-push 拦截、PR 核对、Agent Stop 质量检查 | 所有项目 |
-| [docs/release.md](docs/release.md) | 分组件发版、SemVer、构建号、修复分支 | 有发版的项目 |
-| [docs/env-config.md](docs/env-config.md) | 环境变量命名、配置来源、加载规则、秘密边界 | 所有项目 |
-| [docs/testing.md](docs/testing.md) | 按改动选择检查范围、证据分层、结果记录 | 所有项目 |
-| [docs/technical-writing.md](docs/technical-writing.md) | 技术文档写作规范 | 所有项目 |
-| [docs/python.md](docs/python.md) | Python 注释与质量检查 | Python 项目 |
-| [docs/scripts.md](docs/scripts.md) | 工程脚本与 npm 别名的组织方式 | 所有项目 |
-| [docs/design/principles.md](docs/design/principles.md) | 设计原则、令牌结构、动效、无障碍、组件规格写法 | 有界面的项目 |
-| [docs/design/layout-spacing.md](docs/design/layout-spacing.md) | 4pt 网格、页面边距类型、纵向节奏 | 移动端 |
-| [docs/design/ui-flows.md](docs/design/ui-flows.md) | 界面表达、流程控制、异步结果、流程回归 | 有界面的项目 |
-| [aliyun/README.md](aliyun/README.md) | 阿里云开发范式总览与授权约定 | 阿里云项目 |
-| [aliyun/remote-dev-ecs.md](aliyun/remote-dev-ecs.md) | 按量 ECS 远程开发机：节省停机、Mutagen、Workbench、空闲自停 | 阿里云项目 |
-| [aliyun/supabase.md](aliyun/supabase.md) | 阿里云 Supabase（ADB PG）连接、TLS、只读检查、云端集成测试 | 阿里云 + Supabase |
-| [aliyun/prod-release.md](aliyun/prod-release.md) | SAE 部署、Secret 注入、expand/contract 迁移、回退 | 阿里云上线 |
+| `--name` / `--prefix` | 项目名 / 环境变量前缀 | 目录名 / 由项目名生成 |
+| `--mobile` | `ios`、`android`，逗号分隔；`none` | `ios,android` |
+| `--web` / `--no-web` | 是否包含 Web 前端 | 否 |
+| `--design` / `--no-design` | 是否引入设计规范 | 是 |
+| `--cloud` | `aliyun` | `aliyun` |
+| `--db` | `supabase` | `supabase` |
+| `--release` | `release-please` | `release-please` |
+| `--secrets` | `infisical`、`env`，至少一项 | 两项 |
+| `--force` | 覆盖已存在的文件，先备份为 `*.bak-<时间>` | 否 |
+| `--dry-run` | 只显示将写入的文件 | 否 |
+
+`app-dev-playbook list` 列出全部模块和启用条件。
+
+## 安装结果
+
+| 位置 | 内容 |
+| --- | --- |
+| `AGENTS.md` | 按选项生成的根约定：不适用的小节和“按任务读取”行会被去掉，项目名和前缀已替换 |
+| `CLAUDE.md` | `@AGENTS.md` |
+| `docs/engineering/` | 选中的规范文档；指向未安装文档的链接改为纯文本 |
+| `docs/engineering/templates/` | 钩子和 pre-commit 模板，脚本就绪后再启用 |
+| `.agents/skills/xspec/`、`.claude/skills/xspec/` | xspec skill，分别供 Codex 和 Claude Code 使用 |
+| `.worktreeinclude`、`.gitignore` | 工作树复制清单；`.gitignore` 追加一段带标记的片段 |
+| `.playbook.json` | 本次选项、版本和文件清单 |
+
+已存在的文件默认跳过并在结果中列出，不会被覆盖；`.gitignore` 片段只追加一次。
+
+## 内容
+
+| 文档 | 内容 | 启用条件 |
+| --- | --- | --- |
+| [AGENTS.template.md](content/AGENTS.template.md) | 根约定模板 | 始终 |
+| [agents-md-guide](content/engineering/agents-md-guide.md) | AGENTS.md 编写与拆分 | 始终 |
+| [git-branching](content/engineering/git-branching.md) | 分支命名、提交信息、临时分支拦截 | 始终 |
+| [worktrees](content/engineering/worktrees.md) | 多工作树并行开发与 Agent 钩子 | 始终 |
+| [verify-and-merge](content/engineering/verify-and-merge.md) | 本机干净检出验证、pre-push、PR 核对 | 始终 |
+| [testing](content/engineering/testing.md) | 检查范围、证据分层、结果记录 | 始终 |
+| [env-config](content/engineering/env-config.md) | 环境变量命名、配置来源、秘密边界 | 始终 |
+| [technical-writing](content/engineering/technical-writing.md)、[python](content/engineering/python.md)、[scripts](content/engineering/scripts.md) | 写作、Python、脚本组织 | 始终 |
+| [emulators](content/engineering/emulators.md) | 模拟器统一入口、按工作树租用设备和端口 | 选了移动端 |
+| [release](content/engineering/release.md) | release-please 分组件发版 | `release-please` |
+| [design/principles](content/engineering/design/principles.md)、[design/ui-flows](content/engineering/design/ui-flows.md) | 设计原则、令牌结构、界面流程 | 设计规范 |
+| [design/layout-spacing](content/engineering/design/layout-spacing.md) | 4pt 网格、页面边距 | 设计规范 + 移动端 |
+| [aliyun/](content/engineering/aliyun/README.md) | 远程开发机、上线迁移 | `aliyun` |
+| [aliyun/supabase](content/engineering/aliyun/supabase.md) | 阿里云 Supabase | `aliyun` + `supabase` |
+| [skills/xspec](content/skills/xspec/SKILL.md) | 规格驱动开发 skill（scan / plan / sync） | 始终 |
+
+## 维护
+
+- 文档放在 `content/`，路径与安装后的 `docs/engineering/` 一致，文档之间用相对链接。
+- 新增文档：放进 `content/engineering/`，在 [src/assemble.js](src/assemble.js) 的 `DOCS` 登记启用条件，并在 AGENTS 模板的“按任务读取”表加一行。
+- 新增可选值：在 [src/options.js](src/options.js) 的 `CHOICES` 添加，再用条件标记区分内容。
+- 检查：`npm run check`（类型检查 + 测试，测试会渲染多种选项组合，确认没有残留标记、占位符或死链）。
+
+### 条件标记
+
+条件是逗号分隔的“或”，每项用 `+` 连接表示“且”，`!` 表示“非”，特性名即选项值（`ios`、`android`、`mobile`、`web`、`design`、`aliyun`、`supabase`、`release-please`、`infisical`、`env`）。
+
+```markdown
+<!-- if:design+mobile -->
+整段内容，条件不满足时删除
+<!-- endif -->
+| 表格行或单行内容 | <!-- if:infisical -->
+```
+
+非 Markdown 文件的单行条件写作行尾 `# if:<条件>`。安装时标记本身会被去掉。

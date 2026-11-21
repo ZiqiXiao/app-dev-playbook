@@ -55,7 +55,7 @@
    ./scripts/release.sh publish
    ```
 
-4. 构建与部署：后端按同一 commit 构建一个不可变镜像 digest；移动端按同一 commit 为每个明确的环境分别构建，签名和渠道配置独立。部署与商店分发分别审批，阿里云上的做法见 [阿里云上线](../aliyun/prod-release.md)。
+4. 构建与部署：后端按同一 commit 构建一个不可变镜像 digest；移动端按同一 commit 为每个明确的环境分别构建，签名和渠道配置独立。部署与商店分发分别审批，阿里云上的做法见 [阿里云上线](aliyun/prod-release.md)。
 
 ## 兼容
 

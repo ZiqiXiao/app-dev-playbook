@@ -1,0 +1,13 @@
+# >>> app-dev-playbook
+.env # if:env
+.env.* # if:env
+!.env*.example # if:env
+.build/
+.claude/worktrees/
+.claude/settings.local.json
+.codegraph/
+.vscode/*.code-workspace
+.infisical.json # if:infisical
+.remote-dev.json # if:aliyun
+design/ # if:design
+# <<< app-dev-playbook

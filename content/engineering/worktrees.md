@@ -71,7 +71,7 @@ python3 scripts/dev/worktrees.py rename <type>/<描述>
 
 ### Claude Code
 
-在项目的 `.claude/settings.json` 注册四个钩子，统一调用 `scripts/dev/claude_hooks.py`，示例见 [templates/claude-settings.json](../templates/claude-settings.json)：
+在项目的 `.claude/settings.json` 注册四个钩子，统一调用 `scripts/dev/claude_hooks.py`，示例见 [templates/claude-settings.json](templates/claude-settings.json)：
 
 | 钩子 | 作用 |
 | --- | --- |
