@@ -8,7 +8,6 @@
 | --- | --- | --- | --- |
 | `local` | 本机 | 本机 Docker 参考栈（与云端同版本镜像，固定 digest） | 已忽略的 `.env.*`，仅合成数据 |
 | `cloud` | 按量 ECS 远程开发机，见 [remote-dev-ecs.md](remote-dev-ecs.md) | 阿里云开发实例（如 ADB PostgreSQL 版 Supabase），VPC 内网访问，见 [supabase.md](supabase.md) | 密钥管理服务的 Development 环境 |
-| CI | CI 临时隔离栈 | 每次运行独立的项目名、端口、凭据和卷 | 合成 |
 | staging / prod | SAE（容器），同一镜像 digest | 独立实例 | 运行平台 Secret 注入，见 [prod-release.md](prod-release.md) |
 
 - 本机参考栈与云端实例的能力分别验证，不假定云端具备本机栈的能力（如 Branch API、自动建分支）。

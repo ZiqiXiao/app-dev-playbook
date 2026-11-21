@@ -49,11 +49,11 @@ python scripts/check_cloud_foundation.py --env-file <文件> --expected-project 
 
 ## 本机参考栈
 
-- 本机与 CI 参考栈固定 PG / Auth / Storage 的版本和镜像 digest，按工作树和 CI run 隔离项目名、端口、凭据和命名卷。
+- 本机参考栈固定 PG / Auth / Storage 的版本和镜像 digest，按工作树隔离项目名、端口、凭据和命名卷。不使用托管 CI，推送前的完整检查由本机 `verify.sh` 执行，见 [验证与合并](../verify-and-merge.md)。
 - 一份已忽略的 env 文件完整描述一个栈（`stack init` 生成），只承载合成数据；`up` → `bootstrap`（迁移 + 合成账号）→ `serve`。`bootstrap` 只允许通过合成栈校验的文件，避免把合成数据写入其他库。
 - 多工作树需独立项目名和端口；只改 Supabase CLI 的 `project_id` 不会隔离端口。
 - `down` 默认保留数据；清除合成数据用显式参数。
 
 ## 测试账号
 
-本机栈、CI 栈和云端开发使用同一组固定测试账号和固定验证码，不发送短信。账号由后端配置声明（如 `<PROJECT>_TEST_LOGIN_ACCOUNTS`），只在 `dev` 环境生效；云端开发的值放在密钥管理的 Development。
+本机栈和云端开发使用同一组固定测试账号和固定验证码，不发送短信。账号由后端配置声明（如 `<PROJECT>_TEST_LOGIN_ACCOUNTS`），只在 `dev` 环境生效；云端开发的值放在密钥管理的 Development。
